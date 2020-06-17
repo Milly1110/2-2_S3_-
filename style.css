@@ -1,0 +1,28 @@
+#cards {
+  display: flex;
+}
+#card {
+  /* 調整卡片在容器的排列 */
+  flex: 7% 0 1; /*flex-basis flex-grow flex-shrink*/
+  height: 8vw;  /*依照視窗比例調整*/
+  border: 3px solid #e0e0e0;
+
+  /* 調整卡片內部數字跟花樣的排列 */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+#card img {
+  max-width: 30%;
+  align-self: center;
+}
+
+#card p {
+  margin: 3px;
+  font-size: 10px;
+}
+/* 針對#card標籤裡的最後一個p元素調整 */
+#card p:last-child {
+  transform: rotate(180deg);
+}
