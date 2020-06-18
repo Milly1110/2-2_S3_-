@@ -1,11 +1,15 @@
 #cards {
   display: flex;
+  flex-wrap: wrap;
 }
 #card {
   /* 調整卡片在容器的排列 */
   flex: 7% 0 1; /*flex-basis flex-grow flex-shrink*/
   height: 8vw;  /*依照視窗比例調整*/
-  border: 3px solid #e0e0e0;
+  border: 2px solid #e0e0e0;
+  
+  margin: 2px;
+  box-sizing: border-box;
 
   /* 調整卡片內部數字跟花樣的排列 */
   display: flex;
