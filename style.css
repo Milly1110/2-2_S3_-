@@ -2,7 +2,12 @@
   display: flex;
   flex-wrap: wrap;
 }
-#card {
+.back {
+  background: url('https://assets-lighthouse.alphacamp.co/uploads/image/file/9222/ExportedContentImage_00.png');
+  background-size: cover;
+}
+
+.card {
   /* 調整卡片在容器的排列 */
   flex: 7% 0 1; /*flex-basis flex-grow flex-shrink*/
   height: 8vw;  /*依照視窗比例調整*/
@@ -17,16 +22,16 @@
   justify-content: space-around;
 }
 
-#card img {
+.card img {
   max-width: 30%;
   align-self: center;
 }
 
-#card p {
+.card p {
   margin: 3px;
   font-size: 10px;
 }
 /* 針對#card標籤裡的最後一個p元素調整 */
-#card p:last-child {
+.card p:last-child {
   transform: rotate(180deg);
 }

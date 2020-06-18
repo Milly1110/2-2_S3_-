@@ -7,14 +7,18 @@ const Symbols = [
 
 const view = {
   getCardElement(index) {
+    return `
+      <div class="card back" data-index="${index}">
+      </div>
+    `
+  },
+  getCardContent(index) {
     const number = this.transformNumber((index % 13) + 1)
     const symbol = Symbols[Math.floor(index / 13)]
     return `
-      <div id="card">
-        <p>${number}</p>
-        <img src="${symbol}" alt="">
-        <p>${number}</p>
-      </div>
+      <p>${number}</p>
+      <img src="${symbol}" alt="">
+      <p>${number}</p>
     `
   },
   transformNumber(number) {
@@ -30,6 +34,18 @@ const view = {
     const rootElement = document.querySelector('#cards')
     rootElement.innerHTML = utility.getRandomNumberArray(52).map(index => this.getCardElement(index)).join("")
   },  //用map迭代Array.from陣列，依序將數字丟進this.getCardElement()產生52張卡片；再用join("")把陣列合併成一個字串，才能使用innerHTML放進#caards中
+  flipCard(card) {
+    console.log(card)
+    //如果點選的卡片是背面，則清空classList裡的back，並用innerHTML搭配getCardContent傳入卡片內容
+    if (card.classList.contains('back')) {
+      card.classList.remove('back')
+      card.innerHTML = this.getCardContent(card.dataset.index)
+      return
+    }
+    //如果點選的卡片是正片，則將卡片加上back的標籤到class，並將內容清空(null)
+    card.classList.add('back')
+    card.innerHTML = null
+  },
 }
 
 const utility = {
@@ -44,3 +60,10 @@ const utility = {
 }
 
 view.displayCards()
+
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('click', event => {
+    console.log(card)
+    view.flipCard(card)
+  })
+})
