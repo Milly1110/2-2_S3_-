@@ -4,6 +4,7 @@ const Symbols = [
   'https://image.flaticon.com/icons/svg/105/105212.svg', // 方塊
   'https://image.flaticon.com/icons/svg/105/105219.svg' // 梅花
 ]
+
 const view = {
   getCardElement(index) {
     const number = this.transformNumber((index % 13) + 1)
@@ -27,7 +28,19 @@ const view = {
   },
   displayCards() {
     const rootElement = document.querySelector('#cards')
-    rootElement.innerHTML = Array.from(Array(52).keys()).map(index => this.getCardElement(index)).join("")
+    rootElement.innerHTML = utility.getRandomNumberArray(52).map(index => this.getCardElement(index)).join("")
   },  //用map迭代Array.from陣列，依序將數字丟進this.getCardElement()產生52張卡片；再用join("")把陣列合併成一個字串，才能使用innerHTML放進#caards中
 }
+
+const utility = {
+  getRandomNumberArray(count) {
+    const number = Array.from(Array(count).keys())
+    for (let index = number.length - 1; index > 0; index--) {
+      let randomIndex = Math.floor(Math.random() * (index + 1));
+      [number[index], number[randomIndex]] = [number[randomIndex], number[index]]
+    }
+    return number
+  }
+}
+
 view.displayCards()
