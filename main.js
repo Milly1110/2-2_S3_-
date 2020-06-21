@@ -1,3 +1,11 @@
+const GAME_STATE = {
+  FirstCardAwaits: "FirstCardAwaits",
+  SecondCardAwaits: "SecondCardAwaits",
+  CardsMatchFailed: "CardsMatchFailed",
+  CardsMatched: "CardsMatched",
+  GameFinished: "GameFinished"
+}
+
 const Symbols = [
   'https://image.flaticon.com/icons/svg/105/105223.svg', // 黑桃
   'https://image.flaticon.com/icons/svg/105/105220.svg', // 愛心
@@ -30,9 +38,9 @@ const view = {
       default: return number
     }
   },
-  displayCards() {
+  displayCards(indexes) {
     const rootElement = document.querySelector('#cards')
-    rootElement.innerHTML = utility.getRandomNumberArray(52).map(index => this.getCardElement(index)).join("")
+    rootElement.innerHTML = indexes.map(index => this.getCardElement(index)).join("")
   },  //用map迭代Array.from陣列，依序將數字丟進this.getCardElement()產生52張卡片；再用join("")把陣列合併成一個字串，才能使用innerHTML放進#caards中
   flipCard(card) {
     console.log(card)
@@ -59,7 +67,18 @@ const utility = {
   }
 }
 
-view.displayCards()
+const model = {
+  revealedCards: [],
+}
+
+const controller = {
+  currentState: GAME_STATE.FirstCardAwaits,
+  generateCards() {
+    view.displayCards(utility.getRandomNumberArray(52))
+  }
+}
+
+controller.generateCards()
 
 document.querySelectorAll('.card').forEach(card => {
   card.addEventListener('click', event => {
