@@ -1,6 +1,8 @@
 #cards {
   display: flex;
   flex-wrap: wrap;
+  width: 85%;
+  margin: 0 auto
 }
 .back {
   background: url('https://assets-lighthouse.alphacamp.co/uploads/image/file/9222/ExportedContentImage_00.png');
@@ -9,7 +11,7 @@
 
 .card {
   /* 調整卡片在容器的排列 */
-  flex: 7% 0 1; /*flex-basis flex-grow flex-shrink*/
+  flex: 7% 1 1; /*flex-basis flex-grow flex-shrink*/
   height: 8vw;  /*依照視窗比例調整*/
   border: 2px solid #e0e0e0;
   
@@ -38,4 +40,30 @@
 
 .paired {
   background-color: #adb6ca;
+}
+
+#header {
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 85%;
+}
+#header .title {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+#header .title img {
+  max-width: 3em;
+}
+#header .title h2 {
+  padding-left: 0.5em;
+}
+#header .score {
+  margin: 0;
+  color: #6c90ac;
+}
+#header .tried {
+  margin-top: 0;
 }
