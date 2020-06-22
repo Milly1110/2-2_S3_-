@@ -43,7 +43,7 @@ const view = {
     rootElement.innerHTML = indexes.map(index => this.getCardElement(index)).join("")
   },  //用map迭代Array.from陣列，依序將數字丟進this.getCardElement()產生52張卡片；再用join("")把陣列合併成一個字串，才能使用innerHTML放進#caards中
   flipCard(card) {
-    console.log(card)
+    // console.log(card)
     //如果點選的卡片是背面，則清空classList裡的back，並用innerHTML搭配getCardContent傳入卡片內容
     if (card.classList.contains('back')) {
       card.classList.remove('back')
@@ -75,6 +75,24 @@ const controller = {
   currentState: GAME_STATE.FirstCardAwaits,
   generateCards() {
     view.displayCards(utility.getRandomNumberArray(52))
+  },
+  dispatchCardAction(card) {
+    if (!card.classList.contains('back')) {
+      return
+    }
+    switch (this.currentState) {
+      case GAME_STATE.FirstCardAwaits:
+        view.flipCard(card)
+        model.revealedCards.push(card)
+        this.currentState = GAME_STATE.SecondCardAwaits
+        break
+      case GAME_STATE.SecondCardAwaits:
+        view.flipCard(card)
+        model.revealedCards.push(card)
+        break
+    }
+    console.log('this.currentState :', this.currentState)
+    console.log('revealedCards :', model.revealedCards.map(card => card.dataset.index))
   }
 }
 
@@ -83,6 +101,6 @@ controller.generateCards()
 document.querySelectorAll('.card').forEach(card => {
   card.addEventListener('click', event => {
     console.log(card)
-    view.flipCard(card)
+    controller.dispatchCardAction(card)
   })
 })
