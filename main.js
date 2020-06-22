@@ -54,6 +54,9 @@ const view = {
     card.classList.add('back')
     card.innerHTML = null
   },
+  pairCard(card) {
+    card.classList.add("paired")
+  }
 }
 
 const utility = {
@@ -69,6 +72,10 @@ const utility = {
 
 const model = {
   revealedCards: [],
+
+  isRevealedCardMatched() {
+    return this.revealedCards[0].dataset.index % 13 === this.revealedCards[1].dataset.index % 13
+  }
 }
 
 const controller = {
@@ -89,6 +96,22 @@ const controller = {
       case GAME_STATE.SecondCardAwaits:
         view.flipCard(card)
         model.revealedCards.push(card)
+        if (model.isRevealedCardMatched()) {
+          this.currentState = GAME_STATE.CardsMatched
+          view.pairCard(model.revealedCards[0])
+          view.pairCard(model.revealedCards[1])
+          model.revealedCards = []
+          this.currentState = GAME_STATE.FirstCardAwaits
+        }
+        else {
+          this.currentState = GAME_STATE.CardsMatchedFailed
+          setTimeout(() => {
+            view.flipCard(model.revealedCards[0])
+            view.flipCard(model.revealedCards[1])
+            model.revealedCards = []
+            this.currentState = GAME_STATE.FirstCardAwaits
+          }, 1000)
+        }
         break
     }
     console.log('this.currentState :', this.currentState)

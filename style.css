@@ -35,3 +35,7 @@
 .card p:last-child {
   transform: rotate(180deg);
 }
+
+.paired {
+  background-color: #adb6ca;
+}
