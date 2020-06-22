@@ -42,20 +42,24 @@ const view = {
     const rootElement = document.querySelector('#cards')
     rootElement.innerHTML = indexes.map(index => this.getCardElement(index)).join("")
   },  //用map迭代Array.from陣列，依序將數字丟進this.getCardElement()產生52張卡片；再用join("")把陣列合併成一個字串，才能使用innerHTML放進#caards中
-  flipCard(card) {
+  flipCards(...cards) {
     // console.log(card)
     //如果點選的卡片是背面，則清空classList裡的back，並用innerHTML搭配getCardContent傳入卡片內容
-    if (card.classList.contains('back')) {
-      card.classList.remove('back')
-      card.innerHTML = this.getCardContent(card.dataset.index)
-      return
-    }
-    //如果點選的卡片是正片，則將卡片加上back的標籤到class，並將內容清空(null)
-    card.classList.add('back')
-    card.innerHTML = null
+    cards.map(card => {
+      if (card.classList.contains('back')) {
+        card.classList.remove('back')
+        card.innerHTML = this.getCardContent(card.dataset.index)
+        return
+      }
+      //如果點選的卡片是正片，則將卡片加上back的標籤到class，並將內容清空(null)
+      card.classList.add('back')
+      card.innerHTML = null
+    })
   },
-  pairCard(card) {
-    card.classList.add("paired")
+  pairCards(...cards) {
+    cards.map(card => {
+      card.classList.add("paired")
+    })
   }
 }
 
@@ -89,33 +93,32 @@ const controller = {
     }
     switch (this.currentState) {
       case GAME_STATE.FirstCardAwaits:
-        view.flipCard(card)
+        view.flipCards(card)
         model.revealedCards.push(card)
         this.currentState = GAME_STATE.SecondCardAwaits
         break
       case GAME_STATE.SecondCardAwaits:
-        view.flipCard(card)
+        view.flipCards(card)
         model.revealedCards.push(card)
         if (model.isRevealedCardMatched()) {
           this.currentState = GAME_STATE.CardsMatched
-          view.pairCard(model.revealedCards[0])
-          view.pairCard(model.revealedCards[1])
+          view.pairCards(...model.revealedCards)
           model.revealedCards = []
           this.currentState = GAME_STATE.FirstCardAwaits
         }
         else {
           this.currentState = GAME_STATE.CardsMatchedFailed
-          setTimeout(() => {
-            view.flipCard(model.revealedCards[0])
-            view.flipCard(model.revealedCards[1])
-            model.revealedCards = []
-            this.currentState = GAME_STATE.FirstCardAwaits
-          }, 1000)
+          setTimeout(this.resetCards, 1000)
         }
         break
     }
     console.log('this.currentState :', this.currentState)
     console.log('revealedCards :', model.revealedCards.map(card => card.dataset.index))
+  },
+  resetCards() {
+    view.flipCards(...model.revealedCards)
+    model.revealedCards = []
+    controller.currentState = GAME_STATE.FirstCardAwaits
   }
 }
 
