@@ -8,4 +8,4 @@
 4. 每次點選將累計次數，直到全部的牌組配對完成則遊戲結束
 
 ## 遊戲畫面
-(https://i.imgur.com/BJZEH6Z.jpg)
+[https://i.imgur.com/BJZEH6Z.jpg]
