@@ -67,3 +67,17 @@
 #header .tried {
   margin-top: 0;
 }
+
+.wrong {
+  animation-name: wrongAnimation;
+  animation-duration: 0.3s;
+  animation-iteration-count: 5;
+}
+@keyframes wrongAnimation {
+  0% {
+
+  }
+  100% {
+    border: 2px solid #e4ba32
+  }
+}
